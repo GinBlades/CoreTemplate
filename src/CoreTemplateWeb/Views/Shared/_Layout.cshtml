@@ -1,10 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@inject AssetFileHash AssetFileHash
+
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - The Blog</title>
+    <link rel="stylesheet" href="~/@AssetFileHash.LinkWithHash("css/app.css")" />
+    <title>@ViewBag.Title</title>
 </head>
 <body>
     <nav>
@@ -15,8 +18,10 @@
             </li>
         </ul>
     </nav>
-    <div>
+    <div class="container">
         @RenderBody()
     </div>
+    <script src="~/@AssetFileHash.LinkWithHash("js/vendor.js")"></script>
+    <script src="~/@AssetFileHash.LinkWithHash("js/app.js")"></script>
 </body>
 </html>

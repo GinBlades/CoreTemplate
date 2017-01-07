@@ -12,6 +12,7 @@ using CoreTemplateWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using CoreTemplateWeb.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.HttpOverrides;
 using CoreTemplateWeb.Services;
 
 namespace CoreTemplateWeb {
@@ -23,7 +24,9 @@ namespace CoreTemplateWeb {
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-            builder.AddUserSecrets();
+            if (env.IsDevelopment()) {
+                builder.AddUserSecrets();
+            }
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -42,7 +45,7 @@ namespace CoreTemplateWeb {
                 .AddDefaultTokenProviders();
 
             services.AddSingleton<DbSeeder>();
-
+            services.AddSingleton<AssetFileHash>();
             services.AddMvc();
         }
 
@@ -54,6 +57,13 @@ namespace CoreTemplateWeb {
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+            }
+
+            if (env.IsProduction()) {
+                loggerFactory.AddFile("logs/CoreTemplate.log");
+                app.UseForwardedHeaders(new ForwardedHeadersOptions {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
             }
 
             app.UseStaticFiles();
