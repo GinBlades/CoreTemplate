@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CoreTemplateWeb.ViewModels.Accounts {
+namespace CoreTemplateWeb.ViewModels.Account {
     public class LoginViewModel {
         [Required]
         [Display(Name = "Email or Username")]

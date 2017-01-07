@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using CoreTemplateWeb.Models;
 using Microsoft.AspNetCore.Authorization;
-using CoreTemplateWeb.ViewModels.Accounts;
+using CoreTemplateWeb.ViewModels.Account;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace CoreTemplateWeb.Controllers {
     [Authorize]
-    public class AccountsController : Controller {
+    public class AccountController : Controller {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) {
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) {
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -67,8 +67,7 @@ namespace CoreTemplateWeb.Controllers {
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpDelete]
         public async Task<IActionResult> LogOff() {
             await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(HomeController.Index), "Home");

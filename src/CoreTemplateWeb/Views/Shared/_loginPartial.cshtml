@@ -2,16 +2,11 @@
 @using CoreTemplateWeb.Models
 
 @inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-
 @if (SignInManager.IsSignedIn(User)) {
     <li>
-        <form asp-controller="Accounts" asp-action="LogOff" method="post">
-            <button type="submit">Sign Out</button>
-        </form>
+        <a asp-controller="Account" asp-action="LogOff" data-delete data-return-url="@Url.Action("Index", "Home")">Sign Out</a>
     </li>
-
 } else {
-    <li><a asp-controller="Accounts" asp-action="Register">Register</a></li>
-    <li><a asp-controller="Accounts" asp-action="Login">Sign In</a></li>
+    <li><a asp-controller="Account" asp-action="Register">Register</a></li>
+    <li><a asp-controller="Account" asp-action="Login">Sign In</a></li>
 }
